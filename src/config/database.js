@@ -11,11 +11,16 @@ const getConnection = async () => {
             user: process.env.DB_USER || 'root',
             password: process.env.DB_PASSWORD || '',
             database: process.env.DB_NAME || 'cover_support',
+            port: process.env.DB_PORT || 3306, // Ajout du port (important pour Aiven)
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,
             enableKeepAlive: true,
-            keepAliveInitialDelay: 0
+            keepAliveInitialDelay: 0,
+            // --- AJOUT OBLIGATOIRE POUR LE CLOUD ---
+            ssl: {
+                rejectUnauthorized: false
+            }
         });
     }
     return pool;

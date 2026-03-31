@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 
-
 const supportRoutes = require('./src/controllers/supportController');
 const adminRoutes = require('./src/controllers/adminController');
 const ticketRoutes = require('./src/controllers/ticketController');
@@ -15,15 +14,21 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
+
+// --- MODIFICATION CORS ICI ---
 app.use(cors({
-    origin: ['http://localhost:3001', 'http://localhost:5500'],
+    origin: [
+        'http://localhost:3001', 
+        'http://localhost:5500', 
+        'https://frontend-weld-rho-90.vercel.app' // Ton site en ligne
+    ],
     credentials: true
 }));
 
 // Rate limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000, 
+    max: 100 
 });
 app.use('/api/', limiter);
 
