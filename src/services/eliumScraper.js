@@ -19,10 +19,18 @@ class EliumScraper {
         try {
             console.log('🌐 Connexion au site...');
             
-            this.browser = await puppeteer.launch({
-    headless: true,   // ← invisible !!!
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    defaultViewport: null
+           this.browser = await puppeteer.launch({
+    headless: "new", // Version plus stable pour les serveurs
+    args: [
+        '--no-sandbox', 
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // Important pour éviter les crashs sur Render
+        '--disable-gpu',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process'
+    ],
+    defaultViewport: { width: 1280, height: 800 }
 });
             
             const page = await this.browser.newPage();
